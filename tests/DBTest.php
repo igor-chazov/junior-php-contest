@@ -7,7 +7,7 @@ use App\Models\Post;
 
 class DBTest extends BaseTest
 {
-    public function testOne()
+    public function testOne(): void
     {
         $user = new User();
         $user->email = "some-email@mail.com";

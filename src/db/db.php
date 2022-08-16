@@ -2,9 +2,12 @@
 
 namespace App\db;
 
+use Exception;
+use RuntimeException;
+
 class DB
 {
-    private static $instance = null;
+    private static ?DB $instance = null;
 
     public static function getInstance(): DB
     {
@@ -25,20 +28,26 @@ class DB
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function __wakeup()
     {
-        throw new \Exception("Cannot unserialize a singleton class DB.");
+        throw new RuntimeException("Cannot unserialize a singleton class DB.");
     }
 
-    public function setupConnection($db)
+    public function setupConnection($db): void
     {
         $this->db = $db;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getConnection()
     {
         if (!$this->db) {
-            throw new \Exception("Connection is not setup");
+            throw new RuntimeException("Connection is not setup");
         }
 
         return $this->db;
